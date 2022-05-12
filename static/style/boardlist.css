@@ -1,0 +1,122 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #F2F9FF;
+    overflow: auto;
+}
+
+body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+ol, ul, li, a {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.boardlist-wrapper {
+
+}
+
+.boardlist-main {
+
+}
+
+.boardlist-main-header {
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.boardlist-main-header a {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: bold;
+    color: black;
+}
+
+.boardlist-main-header-title > a {
+    display: flex;
+    align-items: center;
+    font-size: 40px;
+}
+
+.boardlist-main-header-title > a > img {
+    width: 75px;
+    height: 75px;
+}
+
+.boardlist-main-header-menu {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.boardlist-main-header-menu > a {
+    flex-shrink: 0;
+    font-size: 19px;
+    margin: 0 15px;
+}
+
+.boardlist-main-card {
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+.boardlist-main-card > .card {
+    margin: 20px 20px;
+    flex-shrink: 0;
+}
+
+.boardlist-main-card > .card img {
+    border: solid 1px gainsboro;
+    width: 250px;
+    height: 270px;
+}
+
+.boardlist-main-card > .card .card-content-title-like {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+
+}
+
+.boardlist-main-card > .card .card-content-comment {
+    margin: 10px 0;
+    height: 80px;
+    max-width: 250px;
+    word-break: break-all;
+    overflow: auto;
+}
+
+.card-content > .icon-text {
+    justify-content: end;
+}
+
+.card-content-comment {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.card-content-comment::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+.boardlist-main-card > .card .card-footer {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+}

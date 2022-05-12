@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta property="og:title" content="Dangstagram"/>
+    <meta property="og:description" content="Dangstagram 자랑하기"/>
+    <meta property="og:image" content="{{ url_for('static', filename='myaya2.PNG') }}"/>
+    <meta charset="UTF-8">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="../static/style/addboard.css">
+    <!--JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--Cookie-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <!--Bulma-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- Bulma Icon -->
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <title>자랑하기</title>
+
+    <script>
+
+        // 이미지 미리보기 이벤트
+        function change_preview(a) {
+            let file = a.files[0]
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                $("#image").attr("src", e.target.result);
+                $("#image").css("width", "400");
+                $("#image").css("height", "450");
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function addboard() {
+            let title = $('#img-title').val()
+            let comment = $("#img-comment").val()
+            let file = $('#img-file')[0].files[0]
+
+            if (title == '') {
+                alert('제목을 입력하세요!')
+            } else if (comment == '') {
+                alert('강아지 자랑을 써주세요!')
+            } else if (file == undefined) {
+                alert('예시 사진과 다른 사진을 올려주세요!')
+            } else {
+                // form data에 데이터 저장
+                let form_data = new FormData()
+                form_data.append("file_give", file)
+                form_data.append("title_give", title)
+                form_data.append("comment_give", comment)
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/addboard",
+                    // form data 형식으로 파일 데이터 보내기
+                    data: form_data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        alert(response["msg"]);
+                        window.location.href = '/boardlist';
+                    }
+                });
+            }
+        }
+
+        function logout() {
+            console.log(123);
+            $.removeCookie('mytoken');
+            window.location.href = '/';
+        }
+    </script>
+</head>
+<body>
+<div class="addboard-wrapper">
+    <div class="addboard-header">
+        <div class="addboard-header-title">
+            <a href="/"><img src='../static/style/Bully_Sticks.svg'>
+                <span>Dangstagram</span>
+            </a>
+        </div>
+        <div class="addboard-header-menu">
+            <a href="/addboard">자랑하기</a>
+            <a href="/myboardlist">내자랑</a>
+            <a href="/boardlist">둘러보기</a>
+            {% if isOn == 'on'%}
+            <a href="/mypage">내 정보</a>
+            <a onclick="logout()">로그아웃</a>
+            {% else %}
+            <a href="/login">로그인</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="addboard-content-wrapper">
+        <div class="addboard-content">
+            <div class="addboard-content-img">
+                <img src="../static/style/Bully_Sticks.svg" id="image">
+                <div class="file is-primary" style="justify-content: center; margin-top: 10px">
+                    <label class="file-label">
+                        <input onchange="change_preview(this)" id="img-file" class="file-input" type="file"
+                               name="resume"
+                               accept="image/*">
+                        <span class="file-cta">
+                        <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                            사진 고르기
+                        </span>
+                    </span>
+                    </label>
+                </div>
+            </div>
+            <div class="addboard-content-text">
+                <div>
+                    <div class="addboard-content-text-title">
+                        <input class="input is-primary input is-large" type="text"
+                               id="img-title" placeholder="제목을 입력하세요!"
+                        >
+                    </div>
+                    <div class="addboard-content-text-comment">
+                <textarea class="textarea is-primary"
+                          id="img-comment" placeholder="댕댕이를 맘껏 자랑하세요!"></textarea>
+                    </div>
+                </div>
+                <div class="addboard-submit-button">
+                    <button class="button is-primary" onclick="addboard()">등록하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

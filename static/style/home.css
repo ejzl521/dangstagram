@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Trade+Winds&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+ol, ul, li, a {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.home-main {
+    background-image: url('background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 1000px;
+}
+
+.home-main-header {
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.home-main-header a {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.home-main-header-title > a {
+    display: flex;
+    align-items: center;
+    font-size: 40px;
+}
+
+.home-main-header-title > a > img{
+    width: 75px;
+    height: 75px;
+}
+
+.home-main-header-menu {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.home-main-header-menu > a {
+    flex-shrink: 0;
+    font-size: 19px;
+    margin: 0 15px;
+}
+
+.home-main-card {
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+.home-main-card > .home-main-card-title{
+    color: #F1FDFF;
+    font-family: Roboto;
+    font-size: 35px;
+    font-weight: bold;
+}
+.home-main-card > .card {
+    margin: 20px 20px;
+    flex-shrink: 0;
+}
+
+.home-main-card > .card img {
+    border: solid 1px gainsboro;
+    width: 250px;
+    height: 270px;
+}
+
+
+.home-main-card > .card .card-content-title-like {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0;
+
+}
+
+.home-main-card > .card .card-content-comment {
+    margin: 10px 0;
+    height: 80px;
+    max-width: 250px;
+    word-break: break-all;
+    overflow: auto;
+}
+
+.card-content > .icon-text {
+    justify-content: end;
+}
+
+.card-content-comment {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.card-content-comment::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+.home-main-card > .card .card-footer {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home-explain {
+    background: #FAFFF9;
+    padding: 300px 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.home-explain-img {
+    margin: 0 70px;
+}
+
+.home-explain-img > img {
+    width: 400px;
+    height: 400px;
+    max-width: 100%;
+    height: auto;
+}
+
+.home-explain-text {
+    flex-shrink: 0;
+    margin: 0 70px;
+}
+
+
+.home-team {
+    background: #F2F9FF;
+    padding: 200px 75px;
+}
+
+.home-team-title {
+    text-align: center;
+    margin: 20px 0;
+
+}
+
+.home-team-names {
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 42px;
+    color: #262A4E;
+}
+
+.home-team-names > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 270px;
+    height: 90px;
+    margin: 0 20px;
+    text-align: center;
+    vertical-align: middle;
+}

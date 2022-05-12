@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <!-- Webpage Title -->
+    <title>MyPage | DangStar</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta property="og:title" content="Dangstagram"/>
+    <meta property="og:description" content="Dangstagram Mypage"/>
+    <meta property="og:image" content="{{ url_for('static', filename='myaya2.PNG') }}"/>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- 로그인 정보가 존재하지 않거나, 로그인 시간이 만료 되었을 경우 alert -->
+
+    <style>
+        #sign-out-button {
+            margin-top: 15px;
+            width: 100%;
+            color: #ff0000;
+        }
+        #password-now {
+            width: 369px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            let jsonResult = '{{result|tojson|safe}}';
+            let result = JSON.parse(jsonResult);
+
+            let myid = result['id'];
+            let mypw = result['pw'];
+            let nick = result['nick'];
+            let inputpw = $('#password-now');
+
+
+            $('#input-userid').attr('value', myid);
+            $('#input-nickname').attr('value', nick);
+        })
+
+        function check_pwd() {
+            let id = $('#input-userid').val();
+            let pwd = $('#password-now').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/checkpw",
+                data: {
+                    id_give: id,
+                    pw_give: pwd,
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('비밀번호가 확인되었습니다');
+                        $('#password-now').attr("disabled", true);
+                        $('#help-password-now').addClass("is-success");
+                    } else {
+                        alert('비밀번호가 일치하지 않습니다');
+                    }
+                }
+            });
+        }
+
+        /// oninput 이벤트리스너를 통한 pw1 일치 여부 확인
+        function pw1Listener(ele) {
+            let password = $("#input-password").val()
+            if (password == "") {
+                $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+            } else if (!is_password(password)) {
+                $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
+            } else {
+                $("#help-password").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
+            }
+        }
+
+        /// oninput 이벤트리스너를 통한 pw2 일치 여부 확인
+        function pw2Listener(ele) {
+            let password = $("#input-password").val()
+            let password2 = $("#input-password2").val()
+            if (password2 == "") {
+                $("#help-password2").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+            } else if (password2 != password) {
+                $("#help-password2").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe").addClass("is-danger")
+            } else {
+                $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
+            }
+        }
+
+        ///회원가입
+        function change_info() {
+            let userid = $("#input-userid").val()
+            let password = $("#input-password").val()
+            // let password2 = $("#input-password2").val()
+
+            if (!$("#help-password-now").hasClass("is-success")) {
+                alert("현재 비밀번호 확인버튼을 눌러주세요");
+                return;
+            } else if ($("#help-password").hasClass("is-danger")) {
+                alert("바꿀 비밀번호를 확인해주세요.")
+                return;
+            } else if ($("#help-password2").hasClass("is-danger")) {
+                alert("재입력 비밀번호와 변경할 비밀번호를 일치시켜주세요.")
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/changeinfo",
+                data: {
+                    id_give: userid,
+                    pw_give: password,
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert("회원 정보가 수정되었습니다!");
+                        window.location.replace("/");
+                    } else {
+                        alert('오류가 발생하였습니다');
+                    }
+                }
+            });
+        }
+
+        /// 회원탈퇴
+        function sign_out() {
+            let userid = $("#input-userid").val();
+            $.ajax({
+                type: "POST",
+                url: "/api/signout",
+                data: {
+                    id_give: userid,
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert("회원탈퇴 완료");
+                        $.removeCookie('mytoken');
+                        window.location.replace("/");
+                    } else {
+                        alert('오류가 발생하였습니다');
+                    }
+                }
+            });
+        }
+
+        /// 정규표현식으로 입력 제한
+        function is_password(asValue) {
+            var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+            return regExp.test(asValue);
+        }
+
+        // $("#help-password").toggleClass("is-hidden")
+        // $("#help-password2").toggleClass("is-hidden")
+    </script>
+
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="box" style="max-width: 480px;margin:auto">
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <h5>아이디</h5>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left" style="width:100%">
+                                <input id="input-userid" class="input" type="text" disabled>
+                                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                            </div>
+                        </div>
+                        <h5>닉네임</h5>
+                        <div class="field has-addons">
+                            <div class="control has-icons-left" style="width:100%">
+                                <input id="input-nickname" class="input" type="text"
+                                       placeholder="닉네임 입력" disabled>
+                                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                            </div>
+                        </div>
+                        <h5>현재 비밀번호</h5>
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input id="password-now" class="input" type="password" placeholder="현재 비밀번호를 입력 해 주세요">
+                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                <button class="button" onclick="check_pwd()">확인</button>
+                                <p id="help-password-now" class="help is-hidden"></p>
+                            </div>
+                        </div>
+                        <h5>바꿀 비밀번호</h5>
+                        <div class="field">
+                            <div class="control has-icons-left">
+                                <input id="input-password" class="input" type="password" placeholder="비밀번호"
+                                       oninput="pw1Listener(this)">
+                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                            </div>
+                            <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도
+                                사용가능합니다.</p>
+                        </div>
+                    </div>
+
+                    <div id="sign-up-box" class="">
+                        <div class="mb-5">
+                            <div class="field">
+                                <div class="control has-icons-left" style="width:100%">
+                                    <input id="input-password2" class="input" type="password"
+                                           placeholder="비밀번호 재입력" oninput="pw2Listener(this)">
+                                    <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                </div>
+                                <p id="help-password2" class="help">비밀번호를 다시 한 번 입력해주세요.</p>
+                            </div>
+                        </div>
+                        <nav class="level is-mobile">
+                            <button class="level-item button is-sparta" onclick="change_info()">
+                                회원정보 수정
+                            </button>
+                            <button class="level-item button is-sparta is-outlined"
+                                    onclick="window.location.replace('/')">
+                                취소
+                            </button>
+                        </nav>
+                    </div>
+                    <button class="level-item button is-sparta is-outlined" id="sign-out-button" onclick="sign_out()">
+                        회원 탈퇴
+                    </button>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+</body>
+</html>

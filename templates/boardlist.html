@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta property="og:title" content="Dangstagram"/>
+    <meta property="og:description" content="Dangstagram 댕댕이들"/>
+    <meta property="og:image" content="{{ url_for('static', filename='myaya2.PNG') }}"/>
+    <meta charset="UTF-8">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="../static/style/boardlist.css">
+    <!--JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--Bulma-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- Bulma Icon -->
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <!--Cookie-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <title>댕댕이 구경하기</title>
+    <script>
+        function logout() {
+            $.removeCookie('mytoken');
+            window.location.href = '/';
+        }
+
+        function good_board(board_id) {
+            $.ajax({
+                type: "POST",
+                url: "/api/goodboard",
+                // form data 형식으로 파일 데이터 보내기
+                data: {board_id_give: board_id},
+
+                success: function (response) {
+                    if (response['result'] === 'success') {
+                        let good_count = response['good'].length
+                        let good_board_id = '#' + board_id
+                        $(good_board_id).text(good_count)
+                        console.log(response['good'])
+                    } else {
+                        alert(response['msg'])
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+<div class="boardlist-wrapper">
+    <div class="boardlist-main">
+        <div class="boardlist-main-header">
+            <div class="boardlist-main-header-title">
+                <a href="/"><img src='../static/style/Bully_Sticks.svg'>
+                    <span>Dangstagram</span>
+                </a>
+            </div>
+            <div class="boardlist-main-header-menu">
+                <a href="/addboard">자랑하기</a>
+                <a href="/myboardlist">내자랑</a>
+                <a href="/boardlist">둘러보기</a>
+                {% if isOn == 'on'%}
+                <a href="/mypage">내 정보</a>
+                <a onclick="logout()">로그아웃</a>
+                {% else %}
+                <a href="/login">로그인</a>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="boardlist-main-card">
+            {% for board in boards %}
+            {%set title = board.title%}
+            {%set comment = board.comment%}
+            {%set nick = board.nick%}
+            {%set file = board.file%}
+            {%set date = board.date%}
+            {%set good = board.good%}
+            {%set board_id = board.board_id%}
+            <!--bulma-card-->
+            <div class="card">
+                <div class="card-content">
+                    <p class="title" style="display: flex; justify-content: center">
+                        <img src="{{file}}">
+                    </p>
+                    <div class="card-content-title-like">
+                        <h1 class="title" style="margin: 0">
+                            {{title}}
+                        </h1>
+                    </div>
+                    <div class="card-content-comment">
+                        {{comment}}
+                    </div>
+                    <div class="icon-text">
+                                <span class="icon" style="cursor: pointer"
+                                      onclick="good_board('{{board_id}}')">
+                                    <i class="fas fa-heart"></i>
+                                </span>
+                        <!--이거도 jinja-->
+                                <span id='{{board_id}}'>{{good}}</span>
+                    </div>
+                </div>
+
+                <footer class="card-footer">
+                    <div>{{nick}}</div>
+                    <div>{{date}}</div>
+                </footer>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta property="og:title" content="Dangstagram"/>
+    <meta property="og:description" content="Dangstagram Home"/>
+    <meta property="og:image" content="{{ url_for('static', filename='myaya2.PNG') }}"/>
+    <meta charset="UTF-8">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="../static/style/home.css">
+    <!--JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--Bulma-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- Bulma Icon -->
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <!--Cookie-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <title>Dangstagram</title>
+    <script>
+        function logout() {
+            $.removeCookie('mytoken');
+            window.location.reload();
+        }
+
+        function go_addboard() {
+            window.location.replace('addboard')
+        }
+    </script>
+</head>
+
+<body>
+<div class="home-wrapper">
+    <div class="home-main">
+        <div class="home-main-header">
+            <div class="home-main-header-title">
+                <a><img src="../static/style/Bully_Sticks.svg">
+                    <span>Dangstagram</span>
+                </a>
+            </div>
+            <div class="home-main-header-menu">
+                <a href="/addboard">자랑하기</a>
+                <a href="/myboardlist">내자랑</a>
+                <a href="/boardlist">둘러보기</a>
+                {% if isOn == 'on'%}
+                <a href="/mypage">내 정보</a>
+                <a onclick="logout()">로그아웃</a>
+                {% else %}
+                <a href="/login">로그인</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="home-main-card">
+            <div class="home-main-card-title">
+                최고의 댕댕이에게 투표해보세요!
+            </div>
+            {%set title = board.title %}
+            {%set comment = board.comment %}
+            {%set nick = board.nick %}
+            {%set file = board.file %}
+            {%set date = board.date %}
+            {%set good = board.good %}
+            <div class="card" style="cursor: auto">
+                <div class="card-content">
+                    <p class="title" style="display: flex; justify-content: center">
+                        <img src="{{file}}">
+                    </p>
+                    <div class="card-content-title-like">
+                        <h1 class="title" style="margin: 0">
+                            {{title}}
+                        </h1>
+                    </div>
+                    <div class="card-content-comment">
+                        {{comment}}
+                    </div>
+                    <div class="icon-text">
+                                <span class="icon">
+                                    <i class="fas fa-heart"></i>
+                                </span>
+                                <!--이거도 jinja-->
+                                <span id='{{board_id}}'>{{good}}</span>
+                            </div>
+                </div>
+                <footer class="card-footer">
+                    <div>{{nick}}</div>
+                    <div>{{date}}</div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-explain">
+        <div class="home-explain-img">
+            <img src="../static/style/dog.jpg" alt="dog">
+        </div>
+        <div class="home-explain-text">
+            <p style="font-weight: 500; font-size: 35px; font-family: 'Roboto'; color: #2370C8;">
+                <b>ABOUT Dogstagram</b>
+            </p>
+            <p style="
+                font-weight: bold; font-size: 48px; font-family: 'Roboto'; color: #262A4E; ">
+                우리들의 반려견을<br>자랑해보세요!</p>
+            <p style="font-size: 16px; font-family: 'Roboto'; color: #646464; ">
+                여러사람들과 사랑스러운 반려견의 사진을 공유해보세요<br>
+                어느 댕댕이가 가장 인기가 많을지 궁금하군요!<br>
+            </p>
+            <button style="margin-top: 10px;" class="button is-info"
+                    onclick="go_addboard()"
+            >자랑하러가기!
+            </button>
+        </div>
+    </div>
+
+    <div class="home-team">
+        <div class="home-team-title">
+            <p style="
+                font-weight: 600; font-size: 35px; font-family: 'Roboto'; color: #2370C8; letter-spacing: 0.15em;">
+                OUR TEAM
+            </p>
+            <p style="
+                font-family: Roboto; font-style: normal; font-weight: 500; font-size: 48px; color: #262A4E;">
+                E조 5반
+            </p>
+        </div>
+        <div class="home-team-names">
+            <div style="background: #FFFAFA; box-shadow: 0px 4px 24px rgba(217, 237, 255, 0.8);">
+                임선용
+            </div>
+            <div style="background: #FFFBF0; box-shadow: 0px 4px 24px rgba(217, 237, 255, 0.8);">
+                송수용
+            </div>
+            <div style="background: #FAFFF9; box-shadow: 0px 4px 24px rgba(217, 237, 255, 0.8);">
+                이은지
+            </div>
+            <div style="background: #F1FDFF; box-shadow: 0px 4px 24px rgba(217, 237, 255, 0.8);">
+                이덕희
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

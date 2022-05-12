@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Trade+Winds&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-image: url("paw2.jpg");
+    background-size: 800px;
+    overflow: auto;
+}
+
+body{
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+.addboard-wrapper {
+
+}
+.addboard-header {
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #F1FDFF;
+}
+
+.addboard-header a {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: bold;
+    color: black;
+}
+
+.addboard-header-title > a {
+    display: flex;
+    align-items: center;
+    font-size: 40px;
+}
+
+.addboard-header-title > a > img {
+    width: 75px;
+    height: 75px;
+}
+
+.addboard-header-menu {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.addboard-header-menu > a {
+    flex-shrink: 0;
+    font-size: 19px;
+    margin: 0 15px;
+}
+.addboard-content-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 0;
+}
+.addboard-content {
+    padding: 60px;
+    border: 2px solid black;
+    border-radius: 40px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.addboard-content-img {
+    margin: 20px;
+}
+
+.addboard-content-img img {
+    border: 3px solid #00d1b2;
+    width: 400px;
+    height: 450px;
+}
+
+.addboard-content-text {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.addboard-content-text-title {
+    margin: 0 0 10px 0;
+    width: 400px;
+}
+
+.addboard-content-text-comment {
+    width: 400px;
+    margin: 0 0 10px 0;
+}
+
+.addboard-content-text-comment > textarea {
+    resize: none;
+    height: 380px;
+}
+
+.addboard-submit-button {
+    display: flex;
+    justify-content: center;
+}
